@@ -6,6 +6,11 @@ import com.riwi.hero_training.application.mappers.SkillMapper;
 import com.riwi.hero_training.domain.entities.Skill;
 import com.riwi.hero_training.domain.ports.service.interfaces.ISkillService;
 import com.riwi.hero_training.infrastructure.persistence.SkillRepository;
+import com.techQuest.TechQuest.entities.AbilityEntity;
+import com.techQuest.TechQuest.entities.dtos.requests.AbilityRequestDto;
+import com.techQuest.TechQuest.entities.dtos.responses.AbilityResponseDto;
+import com.techQuest.TechQuest.entities.mappers.AbilityMapper;
+import com.techQuest.TechQuest.repositories.AbilityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,53 +24,47 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SkillService implements ISkillService {
     @Autowired
-    private final SkillRepository skillRepository;
+    private AbilityRepository AbilityRepository;
 
-    @Override
-    public Skill create(SkillRequestDto request) {
-        if (request.getSkill() == null || request.getSkill().isEmpty()) {
-            throw new IllegalArgumentException("Skill name cannot be null or blank");
+    public AbilityEntity create(AbilityRequestDto request) {
+        if (request.getAbility() == null || request.getAbility().isEmpty()) {
+            throw new IllegalArgumentException("La habilidad no puede ser nula");
         }
 
-        return skillRepository.save(SkillMapper.INSTANCE.toEntity(request));
+        return AbilityRepository.save(AbilityMapper.INSTANCE.toEntity(request));
     }
 
-    @Override
-    public Skill update(SkillRequestDto request, Long id) {
-        if (request.getSkill() == null || request.getSkill().isEmpty()) {
-            throw new IllegalArgumentException("Skill name cannot be null or blank");
+    public AbilityEntity update(AbilityRequestDto request, Long id) {
+        if (request.getAbility() == null || request.getAbility().isEmpty()) {
+            throw new IllegalArgumentException("La habilidad no puede ser nula");
         }
-
-        Optional<Skill> existingSkill = skillRepository.findById(id);
-        if (existingSkill.isPresent()) {
-            Skill skill = existingSkill.get();
-            skill.setSkill(request.getSkill());
-            return skillRepository.save(skill);
+        Optional<AbilityEntity> excistAbility = AbilityRepository.findById(id);
+        if ( excistAbility.isPresent()) {
+            AbilityEntity ability =  excistAbility.get();
+            ability.setAbilidy(request.getAbility());
+            return AbilityRepository.save(ability);
         }
-        throw new EntityNotFoundException("Skill not found with id: " + id);
+        throw new EntityNotFoundException("la habilidad no se econtro" + id);
     }
 
-    @Override
-    public List<SkillResponseDto> readAll() {
-        List<Skill> skills = skillRepository.findAll();
+    public List<AbilityResponseDto> readAll() {
+        List<AbilityEntity> abilities = AbilityRepository.findAll();
 
-        return skills.stream()
-                .map(SkillMapper.INSTANCE::toResponseDto)
+        return abilities.stream()
+                .map(AbilityMapper.INSTANCE::toResponseDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public SkillResponseDto readById(Long id) {
-        Skill skill = skillRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Skill not found with id: " + id));
-        return SkillMapper.INSTANCE.toResponseDto(skill);
+    public AbilityResponseDto readById(Long id) {
+        AbilityEntity skill = AbilityRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("la habilidad no se econtro" + id));
+        return AbilityMapper.INSTANCE.toResponseDto(skill);
     }
 
-    @Override
     public void delete(Long id) {
-        if (!skillRepository.existsById(id)) {
-            throw new EntityNotFoundException("Skill not found with id: " + id);
+        if (!AbilityRepository.existsById(id)) {
+            throw new EntityNotFoundException("la habilidad no se econtro" + id);
         }
-        skillRepository.deleteById(id);
+        AbilityRepository.deleteById(id);
     }
 }
