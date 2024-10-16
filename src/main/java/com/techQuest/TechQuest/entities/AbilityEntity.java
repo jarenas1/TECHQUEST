@@ -1,6 +1,6 @@
 package com.techQuest.TechQuest.entities;
 
-import com.techQuest.TechQuest.utils.enums.RoleEnum;
+import com.techQuest.TechQuest.utils.enums.AbilityType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,30 +9,23 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
-import java.util.Set;
-
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "abilities")
+public class AbilityEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String email;
-
     @Column(nullable = false)
-    private String password;
+    private String name;
 
     @Enumerated(EnumType.STRING)
-    private RoleEnum role;
-
-    @OneToMany(mappedBy = "student")
-    private Set<StudentAbility> abilities;
+    private AbilityType type;
 
     @CreatedBy
     private String createdBy;
