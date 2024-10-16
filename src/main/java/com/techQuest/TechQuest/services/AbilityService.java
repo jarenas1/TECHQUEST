@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class SkillService implements ISkillService {
+public class AbilityService implements ISkillService {
     @Autowired
     private AbilityRepository AbilityRepository;
 
