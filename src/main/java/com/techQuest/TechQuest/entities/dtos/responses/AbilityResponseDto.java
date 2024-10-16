@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkillResponseDto {
+public class AbilityResponseDto {
     private Long id;
     private String skill;
 }

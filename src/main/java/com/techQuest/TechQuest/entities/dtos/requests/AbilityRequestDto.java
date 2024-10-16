@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkillRequestDto {
+public class AbilityRequestDto {
     @NotBlank(message = "Skill name cannot be blank")
     private String skill;
 }
